@@ -58,6 +58,6 @@ app.use(authRoutes);
 app.use(commentRoutes);
 app.use(campgroundRoutes);
 
-app.listen(process.env.PORT,process.env.IP,function(){
+app.listen(process.env.PORT || 3000,function(){
     console.log("Server Started");
 });
