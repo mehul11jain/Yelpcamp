@@ -1,0 +1,41 @@
+<% include ../partials/header %>
+	<style>
+		body{
+			background: #8e9eab;  /* fallback for old browsers */
+			background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		}
+	</style>
+<div class="container">
+ <div class="row">	
+  <div class="col-md-4 col-sm-12 usr">	
+	 <h5 style="text-align:center;"><%= foundUser.firstName %>'s Profile:</h5> 
+	<img src="<%= foundUser.Avatar %>" style="width:200px; height:200px; border-radius:150px;"> 
+	  <a class="btn btn-danger btn-md" style="display:block; width:33%; margin:10px auto"><i class="fa fa-plus"></i> Follow</a>
+	  <p><h6 style="display:inline-block;">Name :</h6><%=foundUser.firstName%> <%=foundUser.lastName%></p>
+	  <p><h6 style="display:inline-block;">About me :</h6> <%= foundUser.Description %></p>
+	  <p><h6 style="display:inline-block;">Campgrounds Visited :</h6></p>
+	  	<ul>
+			<% campgrounds.forEach(function(campground){ %>
+			<li><h6><%= campground.name %></h6></li>
+			<% }) %>
+	    </ul>
+  </div>	 
+	<div class="col-md-8 content">
+	<h5 style="margin-bottom:20px;"><%= foundUser.firstName%>'s Campgrounds: <h5>	
+	 <div class="row">	
+	<% campgrounds.forEach(function(campground){ %>
+		
+	 <div class="col-md-6 col-sm-12">
+		<div class="img-thumbnail one">
+  			<img src="<%=campground.image%>" class="indeximg">
+    			<h6 class="caption" style="text-align:center;"><%= campground.name %></h6>
+    			<a href="/campgrounds/<%= campground._id %>" class="btn btn-primary more">More info</a>
+		</div>
+	 </div>	
+	<% }) %>
+	</div>	 
+	</div>	
+ </div>
+</div>	
+<% include ../partials/footer %>

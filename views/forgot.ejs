@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+	<style>
+		body{
+			background: #8e9eab;  /* fallback for old browsers */
+			background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		}
+	</style>	
+	<div class="signup" style="height:400px; padding:75px;">
+		<h3 class="text-center signup-h1">Reset Password</h3>
+			<p class="text-center" style="font-size:20px; font-weight:400; margin-bottom:20px;">Enter your Recovery E-mail</p>	
+		<form action="/forgot" method="POST">		
+		<div class="form-group">
+			<input type="text" class="form-control signup-input" name="email" placeholder="E-mail" style="margin-bottom:25px;">
+		</div>
+		<div class="form-group" style="margin:15px">
+        	<input type="submit" class="btn btn-primary float-right" >
+		</div>
+		<form>	
+	</div>	
+<% include ./partials/footer %>	

@@ -1,0 +1,42 @@
+<% include partials/header %>
+<style>
+	body{
+		background:url('https://images3.alphacoders.com/151/151005.jpg');
+		background-position:center;
+	}
+</style>
+<div class="container signup">
+	<h1 class="signup-h1">Sign Up</h1>  
+        <form method="POST" action="/register">
+			<div class="form-group">
+            <input type="text" placeholder="FirstName" name="firstName" class="form-control signup-input" style:"color:white;">
+            </div>
+			<div class="form-group">
+            <input type="text" placeholder="LastName" name="lastName" class="form-control signup-input">
+            </div>
+			<div class="form-group">
+            <input type="text" placeholder="E-mail" name="Email" class="form-control signup-input">
+            </div>
+            <div class="form-group">
+            <input type="text" placeholder="Username" name="username" class="form-control signup-input">
+            </div>
+            <div class="form-group">
+            <input type="password" placeholder="Password" name="password" class="form-control signup-input">
+            </div>
+			<div class="form-group">
+            <input type="text" placeholder="Admin Code" name="adminCode" class="form-control signup-input">
+            </div>
+			<div class="form-group">
+				<textarea placeholder="Description...." name="Description" class="form-control on"></textarea>
+            </div>
+			<div class="form-group float-right"> 
+				<label for="image" style="font-size:18px; font-weight:400;">Avatar: </label>
+				<input type="file" id="image" name="Avatar" accept="image/*" required>
+        	</div>
+            <div class="form-group">
+            <input type="submit" class="btn btn-lg btn-danger btn-block">
+			</div>	
+        </form> 
+	<h6 class="float-right">Resgistered?<a href="/login" style="color:#5cb85c;"> Login</h6>
+</div>        
+<% include partials/footer %>

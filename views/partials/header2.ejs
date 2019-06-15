@@ -1,0 +1,71 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>YelpCamp</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <link href="/stylesheets/main.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+		<link rel="icon" href="https://cdn0.iconfinder.com/data/icons/public-sign-part04/100/_-81-512.png" type="image/png" sizes="16x16">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+            <div class="container">  
+          <a class="navbar-brand" href="/campgrounds"><i class="fas fa-campground"></i> YelpCamp</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+				
+			   <li class="nav-item active" style="margin:auto 0">
+			    	<form class="navbar-form" role="search" action="/campgrounds" method="GET" id="my_form">
+					<div class="input-group">
+						<input type="text" class="form-control search" placeholder="Search" name="q" style="border-radius:20px;">
+						<span><button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button></span>
+					</div>
+					</form>
+				</li>
+	
+              <% if(!currentUser){%>
+              <li class="nav-item active" style="margin:auto 0">
+                <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Login<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active" style="margin:auto 0">
+                <a class="nav-link" href="/register"><i class="fas fa-user-plus"></i> Signup</a>
+              </li>
+              <% } else { %>
+              	  <li class="nav-item dropdown">
+        			<a class="nav-link main-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 										aria-haspopup="true" aria-expanded="false">
+          			<img src="<%=currentUser.Avatar%>" class="rounded-circle z-depth-0 md-avatar"> <%= currentUser.firstName %>
+        			</a>
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background:#2c3e50;">
+          				<a class=" nav-link" href="/user/<%=currentUser._id%>">Profile</a>
+						<div class="dropdown-divider"></div>
+          				<a class=" nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+					 </div>	
+      			   </li>
+              <% } %>
+            </ul>
+          </div>
+          </div>
+        </nav>
+        
+       
+      <% if(error && error.length>0){ %>
+		<div class="container"> 
+        <div class="alert alert-danger" role="alert"  style="margin:0.5rem 0;">
+            <span><%= error %></spans>
+        </div>
+		</div>	
+        <% } %>
+      <% if(success && success.length>0){ %> 
+		<div class="container"> 
+        <div class="alert alert-success" role="alert" style="margin:0.5rem 0;">
+              <span><%= success  %></span>
+        </div>
+		</div> 	
+        <% } %>
+		  
+      
+        
