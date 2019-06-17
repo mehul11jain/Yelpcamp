@@ -11,7 +11,7 @@
      * jQuery
      * Bootstrap 4
      
-   - Back end:
+  - Back end:
      * Expressjs
      * body-parser
      * express-session
@@ -45,6 +45,7 @@
       * Bootstrap 4
       * UIgradient
       * Better animations using CSS keyframes
+  - Implemented In-App Notification for Yelpcamp
   
 ## Technology Stack
 - HTML5

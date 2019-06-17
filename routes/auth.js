@@ -3,8 +3,9 @@ var router=express.Router();
 var passport=require("passport");
 var User=require("../models/user.js");
 var Campground=require("../models/campground.js");
-var async=require("async");
+var Notification = require("../models/notification.js");
 require('dotenv').config();
+var async=require("async");
 var nodemailer=require("nodemailer");
 var crypto=require("crypto");
 var multer = require('multer');
@@ -43,14 +44,14 @@ router.post("/register",upload.single('Avatar'),function(req,res){
   // add cloudinary url for the image to the campground object under image property
   	req.body.Avatar = result.secure_url;
 	  var newUser=new User({
-		  		username:req.body.username,
-				firstName:req.body.firstName,
+		  	  username:req.body.username,
+				  firstName:req.body.firstName,
 		  		lastName:req.body.lastName,
 		  		Email:req.body.Email,
 		  		Avatar:req.body.Avatar,
 		  		Description: req.body.Description
 				});
-	  if(req.body.adminCode === process.env.SECRET_CODE){
+	  if(req.body.adminCode === 'secretcode123'){
 		  newUser.isAdmin=true;
 	  }
       User.register(newUser,req.body.password,function(err,user){
@@ -89,7 +90,15 @@ router.get("/logout",(req,res)=>{
 });
 
 //user Profile Route
-router.get("/user/:id",(req,res)=>{
+router.get("/user/:id",async (req,res)=>{
+	let user;
+	  try {
+    	 user= await User.findById(req.params.id).populate('followers').exec();
+  		}catch(err){
+    	req.flash('error', err.message);
+    	return res.redirect('back');
+  		}
+	
 	User.findById(req.params.id,function(err,foundUser){
 		if(err || !foundUser){
 			req.flash("error","User not found!!");
@@ -100,14 +109,75 @@ router.get("/user/:id",(req,res)=>{
 				if(err){
 			req.flash("error","User not found!!");
 			res.redirect("/campgrounds");
-			}
+					}
 				else{
-				res.render("users/show",{foundUser:foundUser,campgrounds:campgrounds});		
+        console.log(foundUser);  
+				res.render("users/show",{foundUser:foundUser,campgrounds:campgrounds,user:user});		
 				}	
 			});
 			
 		}
 	});
+});
+
+
+// follow user
+router.get('/follow/:id', isLoggedIn, async function(req, res) {
+  try {
+    let user = await User.findById(req.params.id);
+    let cnt=0;
+    for(var i=0;i<user.followers.length;i++){
+      console.log("user :"+user.followers[i]);
+      console.log("req :"+req.user._id);
+      console.log(String(user.followers[i]) !== String(req.user._id));
+      if(String(user.followers[i]) !== String(req.user._id)){
+        cnt++;
+      }
+  }
+    console.log("cnt :"+cnt);
+    console.log("user :"+user.followers.length);
+    if(cnt == user.followers.length){
+    user.followers.push(req.user._id);
+    user.save();
+    req.flash('success', 'Successfully followed ' + user.username + '!');
+    res.redirect('/user/' + req.params.id);
+    }
+    else{
+      req.flash('error', 'Already Followed');
+      res.redirect('back');
+    }
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
+});
+
+// view all notifications
+router.get('/notifications', isLoggedIn, async function(req, res) {
+  try {
+    let user = await User.findById(req.user._id).populate({
+      path: 'notifications',
+      options: { sort: { "_id": -1 } }
+    }).exec();
+    let allNotifications = user.notifications;
+    res.render('notification/index', {allNotifications});
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
+});
+
+// handle notification
+router.get('/notifications/:id', isLoggedIn, async function(req, res) {
+  try {
+    let notification = await Notification.findById(req.params.id);
+    notification.isRead = true;
+    notification.save();
+    res.redirect(`/campgrounds/${notification.campgroundId}`);
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
 });
 
 
@@ -216,7 +286,7 @@ router.post('/reset/:token', function(req, res) {
       });
       var mailOptions = {
         to: user.Email,
-        from: process.env.GMAIL_ID,
+        from: 'mehul1712jain@mail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.Email + ' has just been changed.\n'

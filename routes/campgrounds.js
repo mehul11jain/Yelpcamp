@@ -2,9 +2,11 @@ var express=require("express");
 var router=express.Router();
 var Campground=require("../models/campground.js");
 var Comment=require("../models/comment.js");
+var User=require("../models/user.js");
+var Notification=require("../models/notification.js");
 var middleware=require("../middleware");
-require('dotenv').config();
 var multer = require('multer');
+require('dotenv').config();
 var storage = multer.diskStorage({
   filename: function(req, file, callback) {
     callback(null, Date.now() + file.originalname);
@@ -53,8 +55,8 @@ router.get("/campgrounds/new",middleware.isLoggedIn,function(req,res){
      res.render("campgrounds/new"); 
 });
 
-router.post("/campgrounds",upload.single('image'),function(req,res){
-   cloudinary.uploader.upload(req.file.path, function(result) {
+router.post("/campgrounds",upload.single('image'),async function(req,res){
+   cloudinary.uploader.upload(req.file.path, async function(result) {
   // add cloudinary url for the image to the campground object under image property
   req.body.campground.image = result.secure_url;
 	   
@@ -64,15 +66,28 @@ router.post("/campgrounds",upload.single('image'),function(req,res){
     id: req.user._id,
     username: req.user.username
   };
-  Campground.create(req.body.campground, function(err, campground) {
-    if (err) {
+    try {
+      let campground = await Campground.create(req.body.campground);
+      let user = await User.findById(req.user._id).populate('followers').exec();
+      let newNotification = {
+        username: req.user.username,
+        campgroundId: campground.id
+      };
+      for(const follower of user.followers) {
+        let notification = await Notification.create(newNotification);
+        follower.notifications.push(notification);
+        follower.save();
+      }
+
+      //redirect back to campgrounds page
+      res.redirect(`/campgrounds/${campground.id}`);
+    } catch(err) {
       req.flash('error', err.message);
-      return res.redirect('back');
+      res.redirect('back');
     }
-    res.redirect('/campgrounds/' + campground.id);
-  });
-});              
 });
+});              
+
 
 router.get("/campgrounds/:id",function(req, res) {
    //find the campground with given ID

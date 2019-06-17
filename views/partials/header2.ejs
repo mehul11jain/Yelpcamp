@@ -16,7 +16,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto">
 				
 			   <li class="nav-item active" style="margin:auto 0">
 			    	<form class="navbar-form" role="search" action="/campgrounds" method="GET" id="my_form">
@@ -36,17 +36,29 @@
               </li>
               <% } else { %>
               	  <li class="nav-item dropdown">
-        			<a class="nav-link main-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 										aria-haspopup="true" aria-expanded="false">
+        			<a class="nav-link main-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" 
+					   data-toggle="dropdown" 	aria-haspopup="true" aria-expanded="false">
           			<img src="<%=currentUser.Avatar%>" class="rounded-circle z-depth-0 md-avatar"> <%= currentUser.firstName %>
         			</a>
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background:#2c3e50;">
-          				<a class=" nav-link" href="/user/<%=currentUser._id%>">Profile</a>
-						<div class="dropdown-divider"></div>
-          				<a class=" nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          				<a class="nav-link" href="/user/<%=currentUser._id%>">Profile</a>
+						      <div class="dropdown-divider"></div>
+          				<a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 					 </div>	
       			   </li>
+				          	<li class="dropdown nav-item" style="margin: auto 0;">
+                    <a href="#" class="dropdown-toggle nav-link main-link active" data-toggle="dropdown" role="button" aria-haspopup="true" 
+						aria-expanded="false" style="height: 57px; padding:15px;">Notifications <span class="badge badge-warning"><%= notifications.length %></span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background:#2c3e50;">
+                            <a href="/notifications" class="nav-link">View past notifications</a>
+                            <% notifications.forEach(function(notification) { %>  
+                            <div class="dropdown-divider"></div>                        
+                            <a href="/notifications/<%= notification.id %>" class="nav-link"><%= notification.username %> created a new campground</a>
+                            </div> 
+                          <% }); %>      
+                    </li>
               <% } %>
-            </ul>
+      </ul>
           </div>
           </div>
         </nav>
