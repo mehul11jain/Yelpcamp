@@ -11,7 +11,9 @@
   <div class="col-md-4 col-sm-12 usr">	
 	 <h5 style="text-align:center;"><%= foundUser.firstName %>'s Profile:</h5> 
 	<img src="<%= foundUser.Avatar %>" style="width:200px; height:200px; border-radius:150px;"> 
-	  <a class="btn btn-danger btn-md" style="display:block; width:33%; margin:10px auto"><i class="fa fa-plus"></i> Follow</a>
+	<% if(currentUser && currentUser.username !== foundUser.username){ %>	
+	  <a class="btn btn-danger btn-md" style="display:block; width:33%; margin:10px auto" href="/follow/<%= user.id %>"><i class="fa fa-plus"></i> Follow</a>
+	 <% } %> 
 	  <p><h6 style="display:inline-block;">Name :</h6><%=foundUser.firstName%> <%=foundUser.lastName%></p>
 	  <p><h6 style="display:inline-block;">About me :</h6> <%= foundUser.Description %></p>
 	  <p><h6 style="display:inline-block;">Campgrounds Visited :</h6></p>

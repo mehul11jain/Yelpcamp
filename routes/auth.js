@@ -1,6 +1,7 @@
 var express=require("express");
 var router=express.Router();
 var passport=require("passport");
+var middleware=require("../middleware");
 var User=require("../models/user.js");
 var Campground=require("../models/campground.js");
 var Notification = require("../models/notification.js");
@@ -51,7 +52,7 @@ router.post("/register",upload.single('Avatar'),function(req,res){
 		  		Avatar:req.body.Avatar,
 		  		Description: req.body.Description
 				});
-	  if(req.body.adminCode === process.env.SECRET_CODE){
+	  if(req.body.adminCode === 'secretcode123'){
 		  newUser.isAdmin=true;
 	  }
       User.register(newUser,req.body.password,function(err,user){
@@ -122,7 +123,7 @@ router.get("/user/:id",async (req,res)=>{
 
 
 // follow user
-router.get('/follow/:id', isLoggedIn, async function(req, res) {
+router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
   try {
     let user = await User.findById(req.params.id);
     let cnt=0;
@@ -131,13 +132,13 @@ router.get('/follow/:id', isLoggedIn, async function(req, res) {
       console.log("req :"+req.user._id);
       console.log(String(user.followers[i]) !== String(req.user._id));
       if(String(user.followers[i]) !== String(req.user._id)){
-        cnt++;
+        cnt++
       }
   }
     console.log("cnt :"+cnt);
     console.log("user :"+user.followers.length);
     if(cnt == user.followers.length){
-    user.followers.push(req.user._id);
+    user.followers.push(req.user._id)
     user.save();
     req.flash('success', 'Successfully followed ' + user.username + '!');
     res.redirect('/user/' + req.params.id);
@@ -153,7 +154,7 @@ router.get('/follow/:id', isLoggedIn, async function(req, res) {
 });
 
 // view all notifications
-router.get('/notifications', isLoggedIn, async function(req, res) {
+router.get('/notifications', middleware.isLoggedIn, async function(req, res) {
   try {
     let user = await User.findById(req.user._id).populate({
       path: 'notifications',
@@ -168,7 +169,7 @@ router.get('/notifications', isLoggedIn, async function(req, res) {
 });
 
 // handle notification
-router.get('/notifications/:id', isLoggedIn, async function(req, res) {
+router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
   try {
     let notification = await Notification.findById(req.params.id);
     notification.isRead = true;
@@ -286,7 +287,7 @@ router.post('/reset/:token', function(req, res) {
       });
       var mailOptions = {
         to: user.Email,
-        from: process.env.GMAIL_ID,
+        from: 'mehul1712jain@mail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.Email + ' has just been changed.\n'
@@ -302,14 +303,14 @@ router.post('/reset/:token', function(req, res) {
 });
 
 
-function isLoggedIn(req,res,next){
-     console.log(req.isAuthenticated());
-     if(req.isAuthenticated()){
-         return next(); //middleware Problem
-     }
-     else
-     {
-   res.redirect("/login");
-     }
- }
+// function isLoggedIn(req,res,next){
+//      console.log(req.isAuthenticated());
+//      if(req.isAuthenticated()){
+//          return next(); //middleware Problem
+//      }
+//      else
+//      {
+//    res.redirect("/login");
+//      }
+//  }
  module.exports=router;

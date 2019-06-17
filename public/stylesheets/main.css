@@ -90,6 +90,7 @@ div .col-md-12{
 .signup-input{
 	background:none;
 	border-bottom:1px solid;
+	border-radius: 0;
 	border-top:0;
 	border-left:0;
 	border-right:0;
@@ -97,7 +98,7 @@ div .col-md-12{
 }
 
 .signup-input:focus{
-	border-bottom:2px solid white;
+	border-bottom:3px solid white;
 	background:none;
 	box-shadow:none;
 	border-radius:0;
@@ -155,18 +156,19 @@ textarea.form-control{
 	border-top:0;
 	border-left:0;
 	border-right:0;
+	border-radius: 0;
 	color:white;
 }
 
 .login-input:focus{
-	border-bottom:2px solid white;
+	border-bottom:3px solid white;
 	background:none;
 	box-shadow:none;
 	border-radius:0;
 	color:white;
 }
 .login-input:focus::-webkit-input-placeholder { 
-	color:transparent; 
+	color:transparent;
 }
 .login ::placeholder{
 	color:white		
@@ -242,7 +244,7 @@ textarea.form-control{
 
 .new-input:focus{
 	font-family: 'Slabo 27px', serif;
-	border-bottom:2px solid white;
+	border-bottom:3px solid white;
 	background:none;
 	box-shadow:none;
 	border-radius:0;

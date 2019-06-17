@@ -1,13 +1,19 @@
 <% include partials/header %>
 <style>
+    html{
+        min-height: 100%;
+    }
 	body{
 		background:url('https://images3.alphacoders.com/151/151005.jpg');
-		background-position:center;
+        background-position:center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 100%;
 	}
 </style>
 <div class="container signup">
 	<h1 class="signup-h1">Sign Up</h1>  
-        <form method="POST" action="/register">
+        <form method="POST" action="/register" enctype="multipart/form-data">
 			<div class="form-group">
             <input type="text" placeholder="FirstName" name="firstName" class="form-control signup-input" style:"color:white;">
             </div>
