@@ -51,7 +51,7 @@ router.post("/register",upload.single('Avatar'),function(req,res){
 		  		Avatar:req.body.Avatar,
 		  		Description: req.body.Description
 				});
-	  if(req.body.adminCode === 'secretcode123'){
+	  if(req.body.adminCode === process.env.SECRET_CODE){
 		  newUser.isAdmin=true;
 	  }
       User.register(newUser,req.body.password,function(err,user){
@@ -286,7 +286,7 @@ router.post('/reset/:token', function(req, res) {
       });
       var mailOptions = {
         to: user.Email,
-        from: 'mehul1712jain@mail.com',
+        from: process.env.GMAIL_ID,
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.Email + ' has just been changed.\n'
