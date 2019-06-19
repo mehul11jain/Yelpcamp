@@ -105,7 +105,7 @@ div .col-md-12{
 	color:white;
 }
 
-textarea.form-control{
+.on{
 	border:1px solid white;
 	margin:20px 0;
 	display:inline-block;
@@ -132,7 +132,9 @@ textarea.form-control{
 .on:focus::-webkit-input-placeholder { 
 	color:transparent; 
 }
-
+textarea:focus::-webkit-input-placeholder { 
+	color:transparent; 
+}
 /* login styles */
 .login{
 	width:35%;

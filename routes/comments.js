@@ -55,11 +55,16 @@ router.get("/campgrounds/:id/comments/:comments_id/edit",middleware.checkComment
 //COMMENT UPDATE
 
 router.put("/campgrounds/:id/comments/:comments_id",middleware.checkCommentOwnership,function(req,res){
+        console.log(req.body.text);
       Comment.findByIdAndUpdate(req.params.comments_id,req.body.comment,function(err){
           if(err)
+          {
+          req.flash("error",err.message);    
           res.redirect("back");
+          }
           else
           {
+            console.log("updated");  
             res.redirect("/campgrounds/"+req.params.id);    
           }
       }); 
