@@ -64,13 +64,40 @@ div .col-md-12{
 }
 .carousel-caption{
 	bottom:100px;
-    animation-name: example;
+}
+.heading-primary{
+	animation-name: example;
     animation-duration: 2s;
 }
-@keyframes example {
-  0%   {opacity: 0;}
+.heading-secondary{
+	animation-name: example2;
+    animation-duration: 2s;
+}
+.heading-secondary-btn{
+	animation-name: example3;
+    animation-duration: 2s;
+}
+@keyframes example2{
+	0%{
+		opacity: 0;
+		transform: translateX(-100px);
+  }
+	100% {opacity: 1;}
+  }
+
+@keyframes example{
+  0%{
+	  opacity: 0;
+	  transform: translateX(100px);
+}
   100% {opacity: 1;}
 }
+@keyframes example3{
+	0%{
+		opacity: 0;
+  }
+	100% {opacity: 1;}
+  }
 
 /*Sign up styles*/
 .signup{
