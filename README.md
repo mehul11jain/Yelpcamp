@@ -3,8 +3,11 @@
     Their experience is very valuble to you, which is why we collect their reviews so that you can easily select the camping site of your choice.
     Furthermore, the facts are periodically verified, so you can never get lost.
     
-  - Project created in [The Web developer Bootcamp](https://www.udemy.com/the-web-developer-bootcamp/) course. 
-  
+  - Project created in [The Web developer Bootcamp](https://www.udemy.com/the-web-developer-bootcamp/) course.
+
+  - This website is [Deployed on Heroku](https://mehul11yelpcamp.herokuapp.com/)
+    * Cloudinary feature for file upload not working with heroku app
+
   - Front end:
      * HTML5
      * CSS3
